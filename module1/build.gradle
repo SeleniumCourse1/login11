@@ -1,0 +1,35 @@
+group 'qa11tests'
+version '1.0-SNAPSHOT'
+
+apply plugin: 'java'
+
+sourceCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile 'org.seleniumhq.selenium:selenium-java:3.5.1'
+    compile 'org.testng:testng:6.11'
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+    compile 'ch.qos.logback:logback-classic:1.2.3'
+}
+
+task testGroups(type: Test){
+    useTestNG{
+        suites 'src/test/resources/testng-groups.xml'
+    }
+    if(project.hasProperty("browser")){
+        systemProperty 'browser', "${browser}"
+    }
+}
+
+task testContacts(type: Test){
+    useTestNG{
+        suites 'src/test/resources/testng-contacts.xml'
+    }
+}
+
+
+
